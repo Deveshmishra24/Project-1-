@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function Registration() {
+function Registration({onRegisterSuccessful}) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,12 +13,31 @@ function Registration() {
       setMessage("All fields are required");
       return;
     }
+    //Storing data locally here
+    const userData = {
+      name,
+      email,
+      password,
+    };
 
+    localStorage.setItem("userData", JSON.stringify(userData));
+
+    //for now just showing success
     setMessage("✅ Registration Successful");
-  };
+
+    //clear form
+    setName("");
+    setEmail("");
+    setPassword("");
+
+  setTimeout(() => {
+    onRegisterSuccessful();
+  }, 2000);
+};
+
 
   return (
-    <div style={{ maxWidth: 400, margin: "auto", padding: 20 }}>
+    <div style={{ maxWidth: 300, margin: "auto", padding: 20 }}>
       <h2>Register</h2>
 
       <form onSubmit={handleSubmit}>
@@ -42,7 +61,7 @@ function Registration() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-
+       <br />
         <button type="submit">Register</button>
       </form>
 
