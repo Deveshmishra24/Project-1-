@@ -1,3 +1,10 @@
+/* Reset all margin/padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 #root {
   width: 100%;
   height: 100vh;
@@ -7,47 +14,88 @@
   flex-direction: column;
   margin: 0;
   padding: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow: auto;
 }
 
-body {
+html, body {
   margin: 0;
   padding: 0;
-}
-
-#root > div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
   width: 100%;
-  min-height: 100vh;
-  padding: 20px;
-  box-sizing: border-box;
+  height: 100%;
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
 
-#root > div > div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  text-align: center;
-}
-
-div > form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 20px;
-  align-items: center;
+/* App Container - Main Flexbox for Centering */
+.app-container {
   width: 100%;
+  height: 100%;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 0;
 }
 
+/* Content Wrapper - Centers all content */
+.app-container > div:last-child {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  min-height: 100vh !important;
+  padding: 40px 20px !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+}
+
+/* Page Content - Ensure inner divs are centered */
+.app-container > div:last-child > div {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  flex-direction: column !important;
+  text-align: center !important;
+  width: 100% !important;
+  max-width: 700px !important;
+  padding: 20px !important;
+  margin: 0 auto !important;
+}
+
+/* Form Centering */
+form {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 15px !important;
+  margin-top: 20px !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  max-width: 400px !important;
+}
+
+/* Navigation Centering */
 nav {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 15px !important;
+  margin: 20px 0 !important;
+  width: 100% !important;
+}
+
+/* Headings and Paragraphs */
+h1, h2, h3, h4, h5, h6 {
+  margin: 10px 0 !important;
+}
+
+p {
+  margin: 10px 0 !important;
 }
 
 input {
@@ -58,6 +106,7 @@ input {
   width: 250px;
 }
 
+/* Primary Button Styles */
 button {
   padding: 10px 20px;
   font-size: 16px;
@@ -66,10 +115,71 @@ button {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
 }
 
+/* Primary Button Hover Effect */
 button:hover {
   background-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+/* Primary Button Active State */
+button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
+}
+
+/* Secondary Button Class */
+.btn-secondary {
+  background-color: #6c757d;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
+}
+
+/* Success Button Class */
+.btn-success {
+  background-color: #28a745;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+}
+
+/* Danger Button Class */
+.btn-danger {
+  background-color: #dc3545;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+/* Text Color - Light text for dark background */
+h1, h2, h3, h4, h5, h6, p {
+  color: #ffffff;
+}
+
+/* Link Styling */
+a {
+  color: #00d4ff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #00f0ff;
+  text-decoration: underline;
 }
 
 .logo {
