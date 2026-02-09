@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import Login from './pages/login.jsx'
-import Registration from './pages/registration.jsx'
+import P1 from './pages/p1.jsx'
 import Landing from './pages/landing.jsx'
 import Home from './pages/home.jsx'
 import About from './pages/about.jsx'
@@ -11,7 +11,7 @@ import './App.css'
 import './theme.css'
 
 function App() {
-  const[page, setPage]=useState('landing');
+  const [page, setPage] = useState('landing');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isregistered, setIsRegistered] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -63,7 +63,7 @@ function App() {
           setIsLoggedIn(false);
           setPage('landing');
         }} />}
-        {page === "register" && <Registration onRegisterSuccessful={() => setPage('login')} />}
+        {page === "register" && <P1 onRegisterSuccessful={() => setPage('login')} />}
         
         {page === "login" && <Login onLogin={() =>{
           setIsLoggedIn(true);
@@ -84,8 +84,9 @@ function App() {
       ))}
 
         {/*Dev button*/}
-        <button onClick={() => setPage("api")}>ApiDemo</button>
+        
       </div>
+      <button onClick={() => setPage("api-demo")}>ApiDemo</button>
     </div>
 
   );
