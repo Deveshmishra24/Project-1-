@@ -5,32 +5,30 @@ function Login({ onLogin }) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const storedUserData = JSON.parse(localStorage.getItem("userData"));
+    setError("");
 
-    if(!storedUserData){
-      setError("No user found. Please register first.");
-      return;
-    }
-    if(email === storedUserData.email && password === storedUserData.password){
-      onLogin();
-    }else{
-      setError("Invalid email or password");
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        localStorage.setItem("userData", JSON.stringify(data.user));
+        onLogin();
+      } else {
+        setError(data.message || "Login failed");
+      }
+    } catch (err) {
+      setError("An error occurred during login");
     }
   };
-/*
-    //user defin email and password
-    if(email && password) {
-      onLogin();
-
-    }
-    else{
-        setError("Invalid email or password");
-    }
-    };
-    */
 
     return (
         <div style={{ maxWidth: "400px", margin: "0 auto", padding: "20px", }}>

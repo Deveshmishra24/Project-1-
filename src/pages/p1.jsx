@@ -49,7 +49,7 @@ function Registration({onRegisterSuccesful}) {
     setLoading(false);
     setTimeout(() => {
      onRegisterSuccesful();  
-     },2000);
+     },5000);
   } catch (err) {
     console.error(err);
     setMessage("Server error");
