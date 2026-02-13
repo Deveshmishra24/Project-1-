@@ -13,82 +13,85 @@ import './theme.css'
 function App() {
   const [page, setPage] = useState('landing');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isregistered, setIsRegistered] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
 
-  //session restore on refresh
+  // Restore login session
   useEffect(() => {
-    const user=JSON.parse(localStorage.getItem("user"));
-    if(user && user.isLoggedIn){
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user && user.isLoggedIn) {
       setIsLoggedIn(true);
+      setPage("dashboard");
     }
   }, []);
 
-  // Initialize theme from localStorage
+  // Load saved theme
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      setIsDarkMode(savedTheme === 'dark');
-    }
+    if (savedTheme) setIsDarkMode(savedTheme === 'dark');
   }, []);
 
-  // Update theme in localStorage and apply to root element
+  // Apply theme
   useEffect(() => {
     const theme = isDarkMode ? 'dark' : 'light';
     localStorage.setItem('theme', theme);
     const root = document.getElementById('root');
-    if (root) {
-      root.className = `${theme}-theme`;
-    }
+    if (root) root.className = `${theme}-theme`;
   }, [isDarkMode]);
 
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-  };
+  const toggleTheme = () => setIsDarkMode(!isDarkMode);
 
   return (
     <div className="app-container">
-      <button className="theme-toggle" onClick={toggleTheme} title="Toggle Dark/Light Mode">
+      <button className="theme-toggle" onClick={toggleTheme}>
         {isDarkMode ? '☀️ Light' : '🌙 Dark'}
       </button>
-      
-      <div>
-        {page === 'landing' && <Landing onNavigate={setPage}/>}
-        {page === 'home' && <Home/>}
-        {page === 'about' && <About/>}
-        {page === 'contact' && <Contact />}
-        {page === 'api-demo' && <ApiDemo />}
-        {page === 'dashboard' && <Dashboard/>}
-        {page === "dashboard" && isLoggedIn && <Dashboard onLogout={() => {
-          setIsLoggedIn(false);
-          setPage('landing');
-        }} />}
-        {page === "register" && <P1 onRegisterSuccessful={() => setPage('login')} />}
-        
-        {page === "login" && <Login onLogin={() =>{
-          setIsLoggedIn(true);
-          setPage('dashboard');
-        }} />}
 
-        {/*protected route for dashboard*/ }
-        {page === "dashboard" && (isLoggedIn  ?(<Dashboard onLogout={() => {
-          setIsLoggedIn(false);
-          localStorage.removeItem("user");
-          setPage('landing');
-        }} />
-      ):(
-        <Login onLogin={() =>{
-          setIsLoggedIn(true);
-          setPage('dashboard');
-        }} />
-      ))}
+      {/* PUBLIC PAGES */}
+      {page === 'landing' && <Landing onNavigate={setPage} />}
+      {page === 'home' && <Home />}
+      {page === 'about' && <About />}
+      {page === 'contact' && <Contact />}
+      {page === 'api-demo' && <ApiDemo />}
 
-        {/*Dev button*/}
-        
-      </div>
+      {/* REGISTER PAGE (FIXED PROP NAME) */}
+      {page === "register" && (
+        <P1 onRegisterSuccesful={() => setPage('login')} />
+      )}
+
+      {/* LOGIN PAGE */}
+      {page === "login" && (
+        <Login
+          onLogin={() => {
+            setIsLoggedIn(true);
+            localStorage.setItem("user", JSON.stringify({ isLoggedIn: true }));
+            setPage('dashboard');
+          }}
+        />
+      )}
+
+      {/* PROTECTED DASHBOARD ROUTE */}
+      {page === "dashboard" && (
+        isLoggedIn ? (
+          <Dashboard
+            onLogout={() => {
+              setIsLoggedIn(false);
+              localStorage.removeItem("user");
+              setPage('landing');
+            }}
+          />
+        ) : (
+          <Login
+            onLogin={() => {
+              setIsLoggedIn(true);
+              setPage('dashboard');
+            }}
+          />
+        )
+      )}
+
+      {/* DEV BUTTON */}
       <button onClick={() => setPage("api-demo")}>ApiDemo</button>
     </div>
-
   );
 }
 
